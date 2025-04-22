@@ -13,11 +13,15 @@ class Solution27 extends Solution
      */
     public function removeElement(array &$nums, int $val): int
     {
-        $nums = array_filter($nums, function ($item) use ($val) {
-            return $item !== $val;
-        });
+        $k = 0;
 
-        return count($nums);
+        foreach ($nums as $num) {
+            if ($num !== $val) {
+                $nums[$k++] = $num;
+            }
+        }
+
+        return $k;
     }
 
     public function run(...$args)
