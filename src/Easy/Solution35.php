@@ -12,52 +12,22 @@ class Solution35 extends Solution
      * @return int
      */
     function searchInsert(array $nums, int $target): int {
-        if (count($nums) === 0) {
-            throw new \InvalidArgumentException('Array is empty');
-        }
-        if (count($nums) > 10000) {
-            throw new \InvalidArgumentException('Array is too big');
-        }
-        if (max($nums) > 10000) {
-            throw new \InvalidArgumentException('Array value is too big');
-        }
-        if (min($nums) < -10000) {
-            throw new \InvalidArgumentException('Array value is too small');
-        }
-        if ($nums !== array_unique($nums)) {
-            throw new \InvalidArgumentException('Array contains duplicate values');
-        }
-        if ($nums !== array_values(array_unique($nums)) || $nums !== array_merge([], $nums)) {
-            throw new \InvalidArgumentException('Array is not sorted in ascending order');
-        }
-        if ($target < -10000 || $target > 10000) {
-            throw new \InvalidArgumentException('Target is out of the valid range');
-        }
+        $left = 0;
+        $right = count($nums) - 1;
 
-        $targetIndex = null;
-        $prev = null;
+        while ($left <= $right) {
+            $mid = (int)floor(($left + $right) / 2);
 
-        if ($target > end($nums)) {
-            return count($nums) ;
-        }
-        if ($target < reset($nums)) {
-            return 0;
-        }
-
-        foreach ($nums as $index => $num) {
-            if ($num === $target) {
-                return $index;
-            } elseif (!is_null($prev) && $target > $prev) {
-                $targetIndex = $index;
+            if ($nums[$mid] === $target) {
+                return $mid;
+            } elseif ($nums[$mid] < $target) {
+                $left = $mid + 1;
+            } else {
+                $right = $mid - 1;
             }
-            $prev = $num;
         }
 
-        if (is_null($targetIndex)) {
-            throw new \InvalidArgumentException('Target not found');
-        }
-
-        return $targetIndex;
+        return $left;
     }
 
     function run(...$args): int
