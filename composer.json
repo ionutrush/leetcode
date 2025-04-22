@@ -1,0 +1,21 @@
+{
+    "name": "rushdevelopment/leetcode",
+    "type": "project",
+    "require": {
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.1",
+        "sebastian/complexity": "^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Rushdevelopment\\Leetcode\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ionut Rus",
+            "email": "pixelangello@gmail.com"
+        }
+    ]
+}
