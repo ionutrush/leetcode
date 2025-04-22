@@ -17,4 +17,4 @@ if ($argv[3]) {
     $argv[3] = json_decode($argv[3], true);
 }
 $response = $instance->run(...$argv);
-echo "Response: $response";
+echo "Response: " . json_encode($response);
