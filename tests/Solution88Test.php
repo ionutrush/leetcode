@@ -25,7 +25,7 @@ class Solution88Test extends TestCase
         $n = 3;
         
         // Act
-        $this->solution->mergeUsingTwoPointers($nums1, $m, $nums2, $n);
+        $this->solution->merge($nums1, $m, $nums2, $n);
         
         // Assert
         $this->assertEquals([1, 2, 3, 4, 5, 6], $nums1);
@@ -42,7 +42,7 @@ class Solution88Test extends TestCase
         $nums2 = [];
         $n = 0;
 
-        $this->solution->mergeUsingTwoPointers($nums1, $m, $nums2, $n);
+        $this->solution->merge($nums1, $m, $nums2, $n);
         $this->assertEquals([1, 2, 3], $nums1);
         
         // Case 2: Empty nums1
@@ -51,7 +51,7 @@ class Solution88Test extends TestCase
         $nums2 = [1, 2, 3];
         $n = 3;
 
-        $this->solution->mergeUsingTwoPointers($nums1, $m, $nums2, $n);
+        $this->solution->merge($nums1, $m, $nums2, $n);
         $this->assertEquals([1, 2, 3], $nums1);
     }
     
@@ -65,7 +65,7 @@ class Solution88Test extends TestCase
         $nums2 = [2, 5, 6];
         $n = 3;
 
-        $this->solution->mergeUsingTwoPointers($nums1, $m, $nums2, $n);
+        $this->solution->merge($nums1, $m, $nums2, $n);
         $this->assertEquals([1, 2, 2, 2, 5, 6], $nums1);
     }
     
@@ -79,7 +79,7 @@ class Solution88Test extends TestCase
         $nums2 = [-2, 3, 4];
         $n = 3;
 
-        $this->solution->mergeUsingTwoPointers($nums1, $m, $nums2, $n);
+        $this->solution->merge($nums1, $m, $nums2, $n);
         $this->assertEquals([-2, -1, 0, 1, 3, 4], $nums1);
     }
     
@@ -93,7 +93,7 @@ class Solution88Test extends TestCase
         $nums2 = [-1, 0];
         $n = 2;
 
-        $this->solution->mergeUsingTwoPointers($nums1, $m, $nums2, $n);
+        $this->solution->merge($nums1, $m, $nums2, $n);
         $this->assertEquals([-1, -1, -1, 0, 0, 0], $nums1);
     }
 }
