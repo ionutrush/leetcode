@@ -12,9 +12,8 @@ if (!$solutionNumber || !class_exists($className = "Rushdevelopment\\Leetcode\\{
     throw new Exception("Class {$className} not found");
 }
 $instance = new $className();
-$args = [];
-if ($argv[3]) {
-    $argv[3] = json_decode($argv[3], true);
-}
+$argv = array_map(function ($arg) {
+    return json_decode($arg, true);
+}, $argv);
 $response = $instance->run(...$argv);
 echo "Response: " . json_encode($response);
