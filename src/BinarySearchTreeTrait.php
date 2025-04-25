@@ -89,12 +89,17 @@ trait BinarySearchTreeTrait
      * @return TreeNode|null The root of the subtree
      */
     function buildTreeFromListNodeInorder(int $start, int $end): ?TreeNode {
-        // Base case
+        // When the start index exceeds the end index, we've gone beyond valid boundaries, so return null (no node).
         if ($start > $end) {
             return null;
         }
 
-        // Use bitwise right shift for division by 2 (more efficient than intdiv)
+        // This line calculates the middle index between `$start` and `$end`. It uses bitwise right shift (`>>`) which is equivalent to dividing by 2 but is more efficient at the CPU level.
+        /*
+         * - The `>>` operator shifts all bits in a number to the right by a specified number of positions
+         * - When shifting right by 1 position, you're essentially dividing the number by 2 (and truncating any remainder)
+         * - For example, `10 >> 1` gives `5` because `10` in binary is `1010`, and shifting right by 1 gives `101`, which is `5` in decimal
+         */
         $mid = $start + (($end - $start) >> 1);
 
         // Create the root node with minimal initialization
