@@ -11,8 +11,6 @@ class Solution109 extends Solution
 {
     use BinarySearchTreeTrait;
 
-    private ?ListNode $currentNode;
-
     /**
      * @param ListNode $head
      * @return TreeNode|null

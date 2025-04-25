@@ -4,6 +4,8 @@ namespace Rushdevelopment\Leetcode;
 
 trait BinarySearchTreeTrait
 {
+    protected ?ListNode $currentNode;
+
     /**
      * Helper function to recursively construct the BST
      * @param array $nums The sorted array
