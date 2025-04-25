@@ -10,8 +10,12 @@ class ListNode {
          $this->next = $next;
     }
 
-    public static function convertArrayToListNode(array $values): ?ListNode
+    public static function convertArrayToListNode(array $values): ListNode
     {
+        if (empty($values)) {
+            return new ListNode();
+        }
+
         $head = null;
         $tail = null;
         foreach ($values as $value) {
