@@ -9,4 +9,22 @@ class ListNode {
          $this->val = $val;
          $this->next = $next;
     }
+
+    public static function convertArrayToListNode(array $values): ?ListNode
+    {
+        $head = null;
+        $tail = null;
+        foreach ($values as $value) {
+            $node = new ListNode($value);
+            if ($head === null) {
+                $head = $node;
+                $tail = $node;
+            } else {
+                $tail->next = $node;
+                $tail = $node;
+            }
+        }
+
+        return $head;
+    }
 }

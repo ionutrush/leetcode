@@ -11,54 +11,31 @@ class Solution109 extends Solution
 {
     use BinarySearchTreeTrait;
 
+    private ?ListNode $currentNode;
+
     /**
      * @param ListNode $head
      * @return TreeNode|null
      */
     function sortedListToBST(?ListNode $head): ?TreeNode {
-        $nums = $this->convertListNodeToSortedArray($head);
-
-        // Handle empty array case
-        if (empty($nums)) {
-            return null;
+        // Get the length of the linked list
+        $length = 0;
+        $current = $head;
+        while ($current !== null) {
+            $length++;
+            $current = $current->next;
         }
 
-        // The recursive helper function is the best way to handle this
-        // We'll use array indices to avoid creating subarrays
-        return $this->constructBST($nums, 0, count($nums) - 1);
-    }
+        // Store the head pointer in a class property to track current position
+        $this->currentNode = $head;
 
-    function convertListNodeToSortedArray(?ListNode $head): ?array {
-        $values = [];
-        while ($head !== null) {
-            $values[] = $head->val;
-            $head = $head->next;
-        }
-
-        return $values;
-    }
-
-    function convertArrayToListNode(array $values): ?ListNode
-    {
-        $head = null;
-        $tail = null;
-        foreach ($values as $value) {
-            $node = new ListNode($value);
-            if ($head === null) {
-                $head = $node;
-                $tail = $node;
-            } else {
-                $tail->next = $node;
-                $tail = $node;
-            }
-        }
-
-        return $head;
+        // Build the BST bottom-up with inorder traversal
+        return $this->buildTreeInorder(0, $length - 1);
     }
 
     public function run(...$args): ?TreeNode
     {
-        $payload = $this->convertArrayToListNode(current($args));
+        $payload = ListNode::convertArrayToListNode(current($args));
         return $this->sortedListToBST($payload);
     }
 }
