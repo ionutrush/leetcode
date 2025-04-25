@@ -94,20 +94,18 @@ trait BinarySearchTreeTrait
             return null;
         }
 
-        // Calculate the middle point
+        // Calculate the middle point inline
         $mid = $start + intdiv($end - $start, 2);
 
         // Recursively build the left subtree
-        $left = $this->buildTreeFromListNodeInorder($start, $mid - 1);
+        $root = new TreeNode();
+        $root->left = $this->buildTreeFromListNodeInorder($start, $mid - 1);
 
-        // Create the root node with the current list value
-        $root = new TreeNode($this->currentNode->val);
+        // Set the current node value directly
+        $root->val = $this->currentNode->val;
 
         // Move to the next node in the linked list
         $this->currentNode = $this->currentNode->next;
-
-        // Connect left subtree
-        $root->left = $left;
 
         // Recursively build the right subtree
         $root->right = $this->buildTreeFromListNodeInorder($mid + 1, $end);
