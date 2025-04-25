@@ -17,12 +17,7 @@ class Solution109 extends Solution
      */
     function sortedListToBST(?ListNode $head): ?TreeNode {
         // Get the length of the linked list
-        $length = 0;
-        $current = $head;
-        while ($current !== null) {
-            $length++;
-            $current = $current->next;
-        }
+        $length = $head->count();
 
         // Store the head pointer in a class property to track current position
         $this->currentNode = $head;

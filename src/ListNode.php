@@ -27,4 +27,16 @@ class ListNode {
 
         return $head;
     }
+
+    public function count(): int
+    {
+        $count = 0;
+        $node = $this;
+        while ($node !== null) {
+            $count++;
+            $node = $node->next;
+        }
+
+        return $count;
+    }
 }
