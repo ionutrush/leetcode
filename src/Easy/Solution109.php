@@ -23,7 +23,7 @@ class Solution109 extends Solution
         $this->currentNode = $head;
 
         // Build the BST bottom-up with inorder traversal
-        return $this->buildTreeInorder(0, $length - 1);
+        return $this->buildTreeFromListNodeInorder(0, $length - 1);
     }
 
     public function run(...$args): ?TreeNode

@@ -88,7 +88,7 @@ trait BinarySearchTreeTrait
      * @param int $end End index
      * @return TreeNode|null The root of the subtree
      */
-    function buildTreeInorder(int $start, int $end): ?TreeNode {
+    function buildTreeFromListNodeInorder(int $start, int $end): ?TreeNode {
         // Base case
         if ($start > $end) {
             return null;
@@ -98,7 +98,7 @@ trait BinarySearchTreeTrait
         $mid = $start + intdiv($end - $start, 2);
 
         // Recursively build the left subtree
-        $left = $this->buildTreeInorder($start, $mid - 1);
+        $left = $this->buildTreeFromListNodeInorder($start, $mid - 1);
 
         // Create the root node with the current list value
         $root = new TreeNode($this->currentNode->val);
@@ -110,7 +110,7 @@ trait BinarySearchTreeTrait
         $root->left = $left;
 
         // Recursively build the right subtree
-        $root->right = $this->buildTreeInorder($mid + 1, $end);
+        $root->right = $this->buildTreeFromListNodeInorder($mid + 1, $end);
 
         return $root;
     }
