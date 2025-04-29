@@ -27,8 +27,21 @@ class Solution119 extends Solution
         return $row;
     }
 
+    function getRowMemoryOptimized(int $rowIndex): array {
+        $row = array_fill(0, $rowIndex + 1, 0);
+        $row[0] = 1;
+
+        for ($i = 1; $i <= $rowIndex; $i++) {
+            for ($j = $i; $j > 0; $j--) {
+                $row[$j] += $row[$j - 1];
+            }
+        }
+
+        return $row;
+    }
+
     public function run(...$args): array
     {
-        return $this->getRow(...$args);
+        return $this->getRowMemoryOptimized(...$args);
     }
 }
