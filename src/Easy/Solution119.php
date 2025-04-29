@@ -11,28 +11,20 @@ class Solution119 extends Solution
      * @return Integer[]
      */
     function getRow(int $rowIndex): array {
-        if ($rowIndex === 0) {
-            return [1];
-        }
-        if ($rowIndex === 1) {
-            return [1, 1];
-        }
+        $row = [1];
 
-        $output = [];
+        for ($i = 1; $i <= $rowIndex; $i++) {
+            $newRow = [1];
 
-        for ($i = 1; $i <= $rowIndex + 1; $i++) {
-            $temp = [];
-            for ($j = 1; $j <= $i; $j++) {
-                if ($j === 1 || $j === $i) {
-                    $temp[] = 1;
-                    continue;
-                }
-                $temp[] = $output[$i - 2][$j - 2] + $output[$i - 2][$j - 1];
+            for ($j = 1; $j < $i; $j++) {
+                $newRow[] = $row[$j - 1] + $row[$j];
             }
-            $output[] = $temp;
+
+            $newRow[] = 1;
+            $row = $newRow;
         }
 
-        return $output[$rowIndex];
+        return $row;
     }
 
     public function run(...$args): array
