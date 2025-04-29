@@ -11,23 +11,24 @@ class Solution121 extends Solution
      * @return Integer
      */
     function maxProfit(array $prices): int {
-        if (count($prices) < 2) {
+        // For very small arrays
+        $count = count($prices);
+        if ($count <= 1) {
             return 0;
         }
 
+        $minPrice = PHP_INT_MAX;
         $maxProfit = 0;
-        $minPrice = $prices[0];
 
-        // Start from index 1 since we already set minPrice to prices[0]
-        for ($i = 1, $length = count($prices); $i < $length; $i++) {
-            // Only calculate maxProfit if current price is higher than minPrice
-            if ($prices[$i] > $minPrice) {
-                $profit = $prices[$i] - $minPrice;
-                if ($profit > $maxProfit) {
-                    $maxProfit = $profit;
+        foreach ($prices as $price) {
+            // Check if we can do better with current price
+            if ($price < $minPrice) {
+                $minPrice = $price;
+            } else {
+                $currentProfit = $price - $minPrice;
+                if ($currentProfit > $maxProfit) {
+                    $maxProfit = $currentProfit;
                 }
-            } elseif ($prices[$i] < $minPrice) {
-                $minPrice = $prices[$i];
             }
         }
 
