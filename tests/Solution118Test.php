@@ -6,9 +6,7 @@ require "vendor/autoload.php";
 
 use PHPUnit\Framework\TestCase;
 use Rushdevelopment\Leetcode\Easy\Solution118;
-use Rushdevelopment\Leetcode\ListNode;
 use Rushdevelopment\Leetcode\SolutionInterface;
-use Rushdevelopment\Leetcode\TreeNode;
 
 class Solution118Test extends TestCase
 {
