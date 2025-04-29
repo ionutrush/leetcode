@@ -13,7 +13,7 @@ class Solution108 extends Solution
      * @param Integer[] $nums
      * @return TreeNode
      */
-    function sortedArrayToBST($nums): ?TreeNode {
+    function sortedArrayToBST(array $nums): ?TreeNode {
         // Handle empty array case
         if (empty($nums)) {
             return null;
@@ -24,7 +24,7 @@ class Solution108 extends Solution
         return $this->constructBST($nums, 0, count($nums) - 1);
     }
 
-    public function run(...$args): TreeNode
+    public function run(...$args): ?TreeNode
     {
         return $this->sortedArrayToBST(...$args);
     }
