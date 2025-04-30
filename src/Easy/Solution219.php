@@ -16,7 +16,7 @@ class Solution219 extends Solution
      * @return Boolean
      */
     function containsNearbyDuplicate(array $nums, int $k): bool {
-        return $this->containsNearbyDuplicateUsingArraySlice($nums, $k);
+        return $this->containsNearbyDuplicateUsingDirectIndexMap($nums, $k);
     }
 
     // 45.98% - not bad for a first solution; memory could be heavily optimized though
@@ -76,6 +76,37 @@ class Solution219 extends Solution
             }
 
             // Update seen position - simple assignment is fast
+            $seen[$num] = $i;
+        }
+
+        return false;
+    }
+
+    // 81.61% - top runtime solution
+    //  1. Use isset() instead of array_key_exists() - isset() is significantly faster in PHP for checking array keys
+    //  2. Minimize operations in the loop - Only perform the absolute minimum necessary operations
+    //  3. Avoid nested conditions where possible - Reduces branch mispredictions
+    //  4. Preserve integer keys - Don't cast to strings unless needed for specific cases
+    //  5. Let PHP's engine optimize - Sometimes simpler code allows better internal optimizations
+    function containsNearbyDuplicateUsingDirectIndexMap(array $nums, int $k): bool {
+        // Early return for edge cases
+        if ($k <= 0) {
+            return false;
+        }
+
+        // Pre-allocate the array with integer keys for maximum performance
+        $seen = [];
+
+        foreach ($nums as $i => $num) {
+            // For integer-keyed arrays, use isset() which is faster than array_key_exists
+            if (isset($seen[$num])) {
+                // We only need to check if the distance is within k
+                if ($i - $seen[$num] <= $k) {
+                    return true;
+                }
+            }
+
+            // Always update with the current position
             $seen[$num] = $i;
         }
 
