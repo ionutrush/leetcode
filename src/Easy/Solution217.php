@@ -50,6 +50,21 @@ class Solution217 extends Solution
 
     }
 
+    // 52.66% - not bad, but still not the most optimal
+    function containsDuplicatesUsingHashMapFixed(array $nums): bool {
+        $seen = [];
+
+        foreach ($nums as $num) {
+            // Direct isset check is much faster than in_array
+            if (isset($seen[$num])) {
+                return true;
+            }
+            $seen[$num] = true;
+        }
+
+        return false;
+    }
+
     public function run(...$args): bool
     {
         return $this->containsDuplicate(...$args);
