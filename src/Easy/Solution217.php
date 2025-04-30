@@ -196,6 +196,109 @@ class Solution217 extends Solution
         return false;
     }
 
+    // 5.33% - slow, not good
+    function containsDuplicatesUsingSort(array $nums): bool {
+        $len = count($nums);
+
+        // Empty or single element arrays can't have duplicates
+        if ($len <= 1) return false;
+
+        // For small arrays, early return with direct comparison
+        if ($len < 20) {
+            for ($i = 0; $i < $len; $i++) {
+                for ($j = $i + 1; $j < $len; $j++) {
+                    if ($nums[$i] === $nums[$j]) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        // For large arrays, use sort+compare
+        // Using non-stable sort which is faster
+        sort($nums, SORT_NUMERIC);
+
+        // Now compare adjacent elements in one pass
+        $prev = $nums[0];
+        for ($i = 1; $i < $len; $i++) {
+            if ($nums[$i] === $prev) {
+                return true;
+            }
+            $prev = $nums[$i];
+        }
+
+        return false;
+    }
+
+    // 24.14% - pretty slow
+    function containsDuplicatesUsingBitManipulation(array $nums): bool {
+        $len = count($nums);
+
+        // Empty or single element arrays can't have duplicates
+        if ($len <= 1) return false;
+
+        // For very small arrays
+        if ($len < 10) {
+            for ($i = 0; $i < $len; $i++) {
+                for ($j = $i + 1; $j < $len; $j++) {
+                    if ($nums[$i] === $nums[$j]) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        // Find min/max in one pass
+        $min = $max = $nums[0];
+        for ($i = 1; $i < $len; $i++) {
+            if ($nums[$i] < $min) $min = $nums[$i];
+            elseif ($nums[$i] > $max) $max = $nums[$i];
+        }
+
+        $range = $max - $min + 1;
+
+        // For small ranges, use bitmap
+        if ($range <= 1000000 && $range <= $len * 100) {
+            // For small numbers in a compact range, use a bitmap
+            if ($min >= 0 && $max < 10000) {
+                $bitmap = array_fill(0, $max + 1, false);
+                foreach ($nums as $num) {
+                    if ($bitmap[$num]) {
+                        return true;
+                    }
+                    $bitmap[$num] = true;
+                }
+                return false;
+            }
+
+            // For wider range but still compact
+            $bitmap = array_fill(0, $range, false);
+            foreach ($nums as $num) {
+                $idx = $num - $min;
+                if ($bitmap[$idx]) {
+                    return true;
+                }
+                $bitmap[$idx] = true;
+            }
+            return false;
+        }
+
+        // Last resort: modified hash map with optimized insertion
+        $hashMap = [];
+        foreach ($nums as $num) {
+            // Turning number into string key
+            $key = (string)$num;
+            if (isset($hashMap[$key])) {
+                return true;
+            }
+            $hashMap[$key] = 1;
+        }
+
+        return false;
+    }
+
     public function run(...$args): bool
     {
         return $this->containsDuplicate(...$args);
