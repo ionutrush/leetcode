@@ -65,6 +65,137 @@ class Solution217 extends Solution
         return false;
     }
 
+    // 35.11% - this looked to perform the best in my CLI, but not on leetcode
+    function containsDuplicatesUsingBloomFilterPreCheck(array $nums): bool {
+        $len = count($nums);
+
+        // Empty or single element arrays can't have duplicates
+        if ($len <= 1) return false;
+
+        // For medium-sized arrays, try a randomized approach first
+        if ($len > 100 && $len < 10000) {
+            // Quick check - look at some random pairs
+            // This can catch duplicates without processing the whole array
+            $samples = min(500, $len);
+            for ($i = 0; $i < $samples; $i++) {
+                $idx1 = mt_rand(0, $len - 1);
+                $idx2 = mt_rand(0, $len - 1);
+                if ($idx1 !== $idx2 && $nums[$idx1] === $nums[$idx2]) {
+                    return true;
+                }
+            }
+        }
+
+        // For very small arrays, use direct comparison
+        if ($len < 50) {
+            for ($i = 0; $i < $len; $i++) {
+                for ($j = $i + 1; $j < $len; $j++) {
+                    if ($nums[$i] === $nums[$j]) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        // Main algorithm - Process in chunks with early exit
+        // Using chunks can improve CPU cache performance
+        $chunkSize = 256;
+        $seen = [];
+
+        for ($i = 0; $i < $len; $i += $chunkSize) {
+            $chunk = array_slice($nums, $i, min($chunkSize, $len - $i));
+
+            // Check this chunk for duplicates against our seen values
+            foreach ($chunk as $num) {
+                if (isset($seen[$num])) {
+                    return true;
+                }
+            }
+
+            // Check for duplicates within this chunk
+            $chunkLen = count($chunk);
+            if ($chunkLen !== count(array_flip($chunk))) {
+                return true;
+            }
+
+            // Add all values from this chunk to seen
+            foreach ($chunk as $num) {
+                $seen[$num] = true;
+            }
+        }
+
+        return false;
+    }
+
+    // 9.09% - sucky solution
+    function containsDuplicatesUsingHashMapWithMinimalOverhead(array $nums): bool {
+        $len = count($nums);
+
+        // Empty or single element arrays can't have duplicates
+        if ($len <= 1) return false;
+
+        // Optimize hash size based on array length
+        // Using a power of 2 for modulo optimization
+        $hashSize = 1;
+        while ($hashSize < $len * 3) {
+            $hashSize <<= 1;
+        }
+        $hashMask = $hashSize - 1;
+
+        // Initialize hash buckets
+        $buckets = array_fill(0, $hashSize, null);
+
+        // Insert each element into the hash table
+        foreach ($nums as $num) {
+            // Simple hash function
+            $hash = ($num ^ ($num >> 16)) & $hashMask;
+
+            // Check for collision
+            $bucket = &$buckets[$hash];
+            if ($bucket === null) {
+                $bucket = [$num];
+            } else {
+                // Linear search is faster for small buckets
+                foreach ($bucket as $item) {
+                    if ($item === $num) {
+                        return true;
+                    }
+                }
+                $bucket[] = $num;
+            }
+        }
+
+        return false;
+    }
+
+    // fails!
+    function containsDuplicatesUsingSPLDataStructures(array $nums): bool {
+        $len = count($nums);
+
+        // Empty or single element arrays can't have duplicates
+        if ($len <= 1) return false;
+
+        // SPL structures are implemented in C and can be faster
+        $set = new \SplObjectStorage();
+
+        foreach ($nums as $num) {
+            // We need to wrap integers as objects for SplObjectStorage
+            $obj = (object)['value' => $num];
+
+            // Check if we've seen this value before
+            foreach ($set as $item) {
+                if ($item->value === $num) {
+                    return true;
+                }
+            }
+
+            $set->attach($obj);
+        }
+
+        return false;
+    }
+
     public function run(...$args): bool
     {
         return $this->containsDuplicate(...$args);
