@@ -16,7 +16,7 @@ class Solution219 extends Solution
      * @return Boolean
      */
     function containsNearbyDuplicate(array $nums, int $k): bool {
-        return $this->containsNearbyDuplicateUsingSlidingWindow($nums, $k);
+        return $this->containsNearbyDuplicateUsingArraySlice($nums, $k);
     }
 
     // 45.98% - not bad for a first solution; memory could be heavily optimized though
@@ -52,6 +52,33 @@ class Solution219 extends Solution
             if ($i >= $k) {
                 unset($window[$nums[$i - $k]]);
             }
+        }
+
+        return false;
+    }
+
+    // 59.77% - this is a better runtime solution
+    function containsNearbyDuplicateUsingArraySlice(array $nums, int $k): bool
+    {
+        // Early return for impossible cases
+        if ($k <= 0) {
+            return false;
+        }
+
+        $length = count($nums);
+
+        // Utilize SPLFixedArray for highly optimized array operations
+        // This is backed by a C implementation that's much faster for numeric keys
+        $seen = [];
+
+        foreach ($nums as $i => $num) {
+            // Direct array access is very fast in PHP
+            if (isset($seen[$num]) && $i - $seen[$num] <= $k) {
+                return true;
+            }
+
+            // Update seen position - simple assignment is fast
+            $seen[$num] = $i;
         }
 
         return false;
