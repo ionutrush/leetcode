@@ -33,9 +33,9 @@ class Solution136 extends Solution
         }
 
         return key(
-            array_filter($alreadySeen, function ($value, $key) {
+            array_filter($alreadySeen, function ($value) {
                 return $value === 1;
-            }, ARRAY_FILTER_USE_BOTH)
+            })
         );
     }
 
