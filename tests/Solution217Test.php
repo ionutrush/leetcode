@@ -34,6 +34,11 @@ class Solution217Test extends TestCase
     {
         $nums = [1,1,1,3,3,4,3,2,4,2];
         $this->assertTrue($this->solution->containsDuplicate($nums));
+    }
 
+    public function testContainsDuplicateExample4(): void
+    {
+        $nums = [2,14,18,22,22];
+        $this->assertTrue($this->solution->containsDuplicate($nums));
     }
 }
