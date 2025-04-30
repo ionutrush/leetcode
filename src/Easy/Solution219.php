@@ -16,12 +16,22 @@ class Solution219 extends Solution
      * @return Boolean
      */
     function containsNearbyDuplicate(array $nums, int $k): bool {
-        return $this->containsNearbyDuplicateSimple($nums, $k);
+        return $this->containsNearbyDuplicateUsingHashMap($nums, $k);
     }
 
-    function containsNearbyDuplicateSimple(array $nums, int $k): bool
+    // 45.98% - not bad for a first solution; memory could be heavily optimized though
+    function containsNearbyDuplicateUsingHashMap(array $nums, int $k): bool
     {
-        return true;
+        $seen = [];
+        foreach ($nums as $i => $num) {
+            if (array_key_exists($num, $seen) && abs($i - $seen[$num]) <= $k) {
+                return true;
+            }
+
+            $seen[$num] = $i;
+        }
+
+        return false;
     }
 
     public function run(...$args): bool
