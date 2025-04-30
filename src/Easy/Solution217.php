@@ -17,7 +17,7 @@ class Solution217 extends Solution
     }
 
     // 9.40% runtime - readable, but slow
-    function containsDuplicateSimple(array $nums): bool {
+    function containsDuplicateUsingArrayCountValues(array $nums): bool {
         $vals = array_count_values($nums);
         arsort($vals);
 
@@ -38,8 +38,16 @@ class Solution217 extends Solution
     }
 
     // 56.43% runtime - this is better both in time and space complexity
-    public function containsDuplicateUsingSets(array $nums): bool {
+    function containsDuplicateUsingSets(array $nums): bool {
         return count($nums) !== count(array_flip($nums));
+    }
+
+    // 47.02% - this improves our solution using array_count_values(C++ implementation)
+    function containsDuplicateUsingArrayCountValuesSimplified(array $nums): bool {
+        // Only works efficiently for integer or string keys
+        $counts = array_count_values($nums);
+        return max($counts) > 1;
+
     }
 
     public function run(...$args): bool
