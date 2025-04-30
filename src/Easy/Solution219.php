@@ -65,8 +65,6 @@ class Solution219 extends Solution
             return false;
         }
 
-        $length = count($nums);
-
         // Utilize SPLFixedArray for highly optimized array operations
         // This is backed by a C implementation that's much faster for numeric keys
         $seen = [];
