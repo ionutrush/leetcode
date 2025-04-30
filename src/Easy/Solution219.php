@@ -16,7 +16,7 @@ class Solution219 extends Solution
      * @return Boolean
      */
     function containsNearbyDuplicate(array $nums, int $k): bool {
-        return $this->containsNearbyDuplicateUsingHashMap($nums, $k);
+        return $this->containsNearbyDuplicateUsingSlidingWindow($nums, $k);
     }
 
     // 45.98% - not bad for a first solution; memory could be heavily optimized though
@@ -29,6 +29,29 @@ class Solution219 extends Solution
             }
 
             $seen[$num] = $i;
+        }
+
+        return false;
+    }
+
+    // 45.98% - identical in runtime to the hash map solution, but better in memory
+    function containsNearbyDuplicateUsingSlidingWindow(array $nums, int $k): bool
+    {
+        $window = [];
+
+        foreach ($nums as $i => $num) {
+            // If we found the number in our current window, return true
+            if (isset($window[$num])) {
+                return true;
+            }
+
+            // Add current element to window
+            $window[$num] = true;
+
+            // Remove elements outside the sliding window (more than k positions away)
+            if ($i >= $k) {
+                unset($window[$nums[$i - $k]]);
+            }
         }
 
         return false;
