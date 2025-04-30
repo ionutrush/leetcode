@@ -13,7 +13,7 @@ class Solution217 extends Solution
      * @return Boolean
      */
     function containsDuplicate(array $nums): bool {
-        return $this->containsDuplicateUsingSets($nums);
+        return $this->containsDuplicatesUsingJson($nums);
     }
 
     // 9.40% runtime - readable, but slow
@@ -297,6 +297,30 @@ class Solution217 extends Solution
         }
 
         return false;
+    }
+
+    // 10.03% - interesting idea, but slow
+    function containsDuplicatesUsingJson(array $nums): bool {
+        // Serialize the array to JSON and check for duplicate pattern
+        // This leverages PHP's native C-level JSON implementation
+        $json = json_encode($nums);
+
+        // This creates a pattern that would match duplicate JSON entries
+        // For example [1,2,3,2,4] would match because "2," appears twice
+        // We make sure to check for proper format with commas
+
+        // Strip array brackets
+        $jsonContents = substr($json, 1, -1);
+        if (empty($jsonContents)) {
+            return false;  // Empty array
+        }
+
+        // Split by comma
+        $elements = explode(',', $jsonContents);
+
+        // Check if count of unique elements is less than total count
+        // Using a direct counting approach
+        return count($elements) !== count(array_unique($elements));
     }
 
     public function run(...$args): bool
