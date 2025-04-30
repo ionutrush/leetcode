@@ -22,21 +22,24 @@ class Solution136 extends Solution
             return $nums[0];
         }
 
-        $alreadySeen = [];
+        // Initialize result to 0 since any number XORed with 0 equals itself
+        $result = 0;
 
+        // XOR all numbers in the array
         foreach ($nums as $num) {
-            if (isset($alreadySeen[$num])) {
-                $alreadySeen[$num]++;
-            } else {
-                $alreadySeen[$num] = 1;
-            }
+            // XOR has these key properties that make it perfect for this problem:
+            // 1. a ^ a = 0 (a number XORed with itself gives 0)
+            // 2. a ^ 0 = a (a number XORed with 0 remains unchanged)
+            // 3. a ^ b ^ a = b (duplicates cancel each other out)
+            //
+            // Since all numbers except one appear exactly twice,
+            // all duplicates will cancel out to 0, leaving only the single number
+
+            $result ^= $num;
         }
 
-        return key(
-            array_filter($alreadySeen, function ($value) {
-                return $value === 1;
-            })
-        );
+        // After XORing all numbers, only the single number remains
+        return $result;
     }
 
     public function run(...$args): int
