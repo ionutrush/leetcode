@@ -28,8 +28,18 @@ class Solution268 extends Solution
             )
         );
     }
+
+    /**
+     * @performance float 100
+     */
+    public function getMissingNumberUsingMathSum(array $nums): int
+    {
+        $sum = count($nums) * (count($nums) + 1) / 2;
+        return $sum - array_sum($nums);
+    }
+
     public function run(...$args): int
     {
-        return $this->getMissingNumber($args);
+        return $this->getMissingNumberUsingMathSum($args);
     }
 }
