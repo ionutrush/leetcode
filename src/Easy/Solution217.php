@@ -13,7 +13,7 @@ class Solution217 extends Solution
      * @return Boolean
      */
     function containsDuplicate(array $nums): bool {
-        return $this->containsDuplicatesUsingJson($nums);
+        return $this->containsDuplicatesUsingSpecializedArrayFiltering($nums);
     }
 
     // 9.40% runtime - readable, but slow
@@ -321,6 +321,30 @@ class Solution217 extends Solution
         // Check if count of unique elements is less than total count
         // Using a direct counting approach
         return count($elements) !== count(array_unique($elements));
+    }
+
+    // 47.02% - not bad;
+    // This technique leverages PHP's highly optimized array functions that are implemented in C:
+    function containsDuplicatesUsingSpecializedArrayFiltering(array $nums): bool {
+        // Convert to associative array with values as keys (implemented in C)
+        $flipped = array_flip($nums);
+
+        // Check if array sizes differ - if so, there must be duplicates
+        // This avoids the count() function call overhead
+        $originalSize = count($nums);
+        $uniqueSize = 0;
+
+        // Manual counting of associative array is surprisingly faster in some cases
+        foreach ($flipped as $_) {
+            $uniqueSize++;
+            // Early exit if we've confirmed no duplicates
+            if ($uniqueSize === $originalSize) {
+                return false;
+            }
+        }
+
+        // If we get here, sizes differ, so there are duplicates
+        return true;
     }
 
     public function run(...$args): bool
